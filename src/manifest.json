@@ -1,0 +1,5 @@
+{
+    "name": "Army Admin",
+    "start_url": "./checklist.html",
+    "display": "standalone"
+}

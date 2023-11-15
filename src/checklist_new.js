@@ -3,6 +3,8 @@ let stateControlsShown = false
 let maxRowId = 0;
 let selectedRow = null
 
+let finalised = false
+
 const NEW_CHECKLIST_OPTION = '+ New'
 const IMPORT_CHECKLIST_OPTION = '+ Import'
 
@@ -27,9 +29,6 @@ class ChecklistItem {
         this.checked = checked
         this.heading = heading
         this.save(true)
-    }
-
-    add() {
     }
 
     save(push = false) {
@@ -161,7 +160,7 @@ function exportChecklist() {
     download(JSON.stringify({
         name: state.curTableName,
         checklist: state.checklists[state.curTableName],
-    }, null, 2), `${state.curTableName.replace(/\s+/g, '_')}.json`, 'application/json')
+    }, null, 2), `${state.curTableName.trim().replace(/\s+/g, '_')}.json`, 'application/json')
 }
 
 function showImportChecklist() {
@@ -290,7 +289,7 @@ function onKeyDown(e) {
         hideElement('#state-controls', !stateControlsShown)
         e.preventDefault()
     }
-    if (stateControlsShown && e.ctrlKey && e.keyCode == 61) {
+    if (stateControlsShown && e.ctrlKey && e.keyCode == 73) {
         if (e.shiftKey) {
             addNewRow({ heading: true })
         } else {

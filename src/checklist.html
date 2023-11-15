@@ -4,6 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <link rel="manifest" href="manifest.json" />
+  {"name": "Army Admin","icons": [],"start_url": "./checklist.html","display": "standalone"} -->
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Army%20Admin%22%2C%22icons%22%3A%5B%5D%2C%22start_url%22%3A%22.%2Fchecklist.html%22%2C%22display%22%3A%22standalone%22%7D" />
 
   <!-- NOTE: checklist.css is built using tailwindcss -->
   <link href='checklist.css' rel='stylesheet'>
@@ -13,20 +16,22 @@
 
 <body>
   <div class="p-4 w-full">
-    <div class="border-2 p-2 text-lg rounded-lg w-max">
+    <div class="border-2 p-2 mb-2 text-lg rounded-lg w-max">
       <label for="checklists-dropdown">Selected Checklist:</label>
       <select onchange="onDropdownChange(event)" id="checklists-dropdown" class="p-1" for="checklists-dropdown"></select>
-      <button id="ml-2 export-checklist-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="exportChecklist()">Export</button>
-      <button id="delete-all-btn" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onclick="confirm('Are you sure?') && deleteChecklist()">Delete</button>
+      <button id="export-checklist-btn" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="exportChecklist()">Export</button>
+      <button id="delete-checklist-btn" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onclick="confirm('Are you sure?') && deleteChecklist()">Delete</button>
+      <button id="finalise-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="finalisePage()">Finalise</button>
     </div>
     <table id="mytable" class="border-collapse min-w-full text-lg text-center text-gray-500 ">
       <thead class="text-gray-700 w-full bg-gray-50 ">
         <tr>
-          <th id="table-name-cell" ondblclick="onContentDblClick(event)" colspan="4" scope="colgroup" class="text-2xl p-2 border-2">Table Name</th>
+          <th id="table-name-cell" ondblclick="onContentDblClick(event)" colspan="5" scope="colgroup" class="text-2xl p-2 border-2">Table Name</th>
         </tr>
         <tr id="table-heading">
           <th scope="col" class="p-2 w-8 border-2">S/N</th>
-          <th scope="col" class="p-2 border-2">Content</th>
+          <th scope="col" class="p-2 w-max border-2">Content</th>
+          <th scope="col" class="p-2 w-max border-2">Remarks</th>
           <th scope="col" class="text-2xl p-2 border-2">✓</th>
           <th id="delete-heading" scope="col" class="hidden w-8 text-2xl p-2 border-2">Del</th>
         </tr>
@@ -34,13 +39,14 @@
       <tbody id="table-body" class="text-lg text-center">
         <tr id="sample-row" class="hidden row bg-white border-b">
           <td class="border-2">1</td>
-          <td class="p-2 text-left border-2">Content</td>
+          <td class="p-2 text-left w-max border-2" ondblclick="onContentDblClick(event)">Content</td>
+          <td class="p-2 text-left w-max border-2 editable" ondblclick="onContentDblClick(event)">Remarks</td>
           <td class="w-8 p-2 border-2"><input type="checkbox" class="w-8 h-8" /></td>
           <td class="hidden delete-btn border-2"><button onclick="deleteRow(event.target)"><i class="gg-trash" style="color:red"></i></i></button></td>
         </tr>
         <tr id="sample-heading" class="hidden bg-white border-b">
-          <th colspan="3" class="text-xl2 py-2 text-center border-2">Heading Title</td>
-          <td class="hidden delete-btn border-2"><button onclick="deleteRow(event.target)"><i class="gg-trash" style="color:red"></i></button></td>
+          <th colspan="4" class="text-xl2 py-2 text-center border-2" ondblclick="onContentDblClick(event)"">Heading Title</td>
+          <td class=" hidden delete-btn border-2"><button onclick="deleteRow(event.target)"><i class="gg-trash" style="color:red"></i></button></td>
         </tr>
       </tbody>
     </table>
@@ -61,8 +67,9 @@
 
       <input id="file-input" class="hidden" type='file' />
 
-      <div>Shortcuts: Ctrl-D (Show this Menu), Ctrl-E (Toggle Edit Mode), Ctrl-+ (Insert Row), Ctrl-Shift-+ (Insert Heading)</div>
+      <div>Shortcuts: Ctrl-D (Show this Menu), Ctrl-E (Toggle Edit Mode), Ctrl-I (Insert Row), Ctrl-Shift-I (Insert Heading)</div>
     </div>
+    <div class="hidden" id="state"></div>
   </div>
 </body>
 
