@@ -1,0 +1,11 @@
+{
+    "name": "Army Admin",
+    "icons": [
+        {
+            "src": "icons/army.svg",
+            "size": "any"
+        }
+    ],
+    "start_url": "./checklist.html",
+    "display": "standalone"
+}
