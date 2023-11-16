@@ -1,9 +1,10 @@
 {
     "name": "Army Admin",
+    "id": "army_admin_app",
     "orientation": "portrait",
     "dir": "ltr",
     "lang": "en",
-    "display": "minimal-ui",
+    "display": "standalone",
     "icons": [
         {
             "src": "/army_admin_app/build/icons/army.svg",
