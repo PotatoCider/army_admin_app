@@ -1,5 +1,9 @@
 {
     "name": "Army Admin",
+    "orientation": "portrait",
+    "dir": "ltr",
+    "lang": "en",
+    "display": "minimal-ui",
     "icons": [
         {
             "src": "/army_admin_app/build/icons/army.svg",
@@ -7,6 +11,5 @@
             "type": "image/svg+xml"
         }
     ],
-    "start_url": "/army_admin_app/build/checklist.html",
-    "display": "minimal-ui"
+    "start_url": "/army_admin_app/build/checklist.html"
 }
