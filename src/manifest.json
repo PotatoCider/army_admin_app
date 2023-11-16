@@ -2,7 +2,7 @@
     "name": "Army Admin",
     "icons": [
         {
-            "src": "icons/army.svg",
+            "src": "/army_admin_app/build/icons/army.svg",
             "sizes": "any",
             "type": "image/svg+xml"
         }
