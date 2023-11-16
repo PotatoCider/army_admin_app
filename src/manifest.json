@@ -3,9 +3,10 @@
     "icons": [
         {
             "src": "icons/army.svg",
-            "size": "any"
+            "sizes": "any",
+            "type": "image/svg+xml"
         }
     ],
-    "start_url": "./checklist.html",
-    "display": "standalone"
+    "start_url": "/army_admin_app/build/checklist.html",
+    "display": "minimal-ui"
 }

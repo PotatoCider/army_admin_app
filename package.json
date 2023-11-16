@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "copy": "copyfiles -u 1 src/* build/",
+    "copy": "copyfiles -u 1 'src/**/*' build/",
     "generateSW": "workbox generateSW workbox-config.js",
     "cssbuild": "npx tailwindcss -i build/checklist.css -o build/checklist.css",
     "inline": "cd build/ && cat checklist.html | inliner > checklist_inlined.html",
