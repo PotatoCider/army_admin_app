@@ -313,10 +313,10 @@ function addNewRow({ content = null, remarks = '', id = null, checked = false, h
         let snCell, remarksCell, checkboxCell
         ([snCell, contentCell, remarksCell, checkboxCell, deleteCell] = row.children)
 
-        if (prevRow.children.length == 4) {
-            snCell.innerText = +prevRow.firstElementChild.innerText + 1
-        } else {
+        if (prevRow.children.length == 2) {
             snCell.innerText = 1
+        } else {
+            snCell.innerText = +prevRow.firstElementChild.innerText + 1
         }
         remarksCell.innerText = remarks
         encodeRowContent(remarksCell)
