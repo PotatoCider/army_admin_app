@@ -1,18 +1,22 @@
 {
   "name": "army_admin_app",
-  "description": "``` npm install ```",
+  "description": "Make Army Life Easier",
   "version": "1.0.0",
   "main": "tailwind.config.js",
   "dependencies": {
+    "copyfiles": "^2.4.1",
     "inliner": "^1.13.1",
     "nodemon": "^3.0.1",
-    "tailwindcss": "^3.3.5"
+    "tailwindcss": "^3.3.5",
+    "workbox-cli": "^7.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "copy": "copyfiles -u 1 'src/**/*' build/",
+    "generateSW": "workbox generateSW workbox-config.js",
     "cssbuild": "npx tailwindcss -i build/checklist.css -o build/checklist.css",
     "inline": "cd build/ && cat checklist.html | inliner > checklist_inlined.html",
-    "build": "cp -r src/* build/ && npm run cssbuild && npm run inline",
+    "build": "npm run copy && npm run cssbuild && npm run generateSW",
     "dev": "nodemon -e js,css,html,json --watch src/ --exec 'npm run build'"
   },
   "author": "",

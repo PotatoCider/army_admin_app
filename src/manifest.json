@@ -1,5 +1,16 @@
 {
     "name": "Army Admin",
-    "start_url": "./checklist.html",
-    "display": "standalone"
+    "id": "army_admin_app",
+    "orientation": "portrait",
+    "dir": "ltr",
+    "lang": "en",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "/icons/army.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ],
+    "start_url": "/checklist.html"
 }
