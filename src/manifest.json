@@ -4,7 +4,7 @@
     "orientation": "portrait",
     "dir": "ltr",
     "lang": "en",
-    "display": "standalone",
+    "display": "minimal-ui",
     "icons": [
         {
             "src": "/icons/army.svg",
