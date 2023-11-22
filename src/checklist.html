@@ -19,7 +19,10 @@
       <select onchange="onDropdownChange(event)" id="checklists-dropdown" class="p-1" for="checklists-dropdown"></select>
       <button id="export-checklist-btn" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="exportChecklist()">Export</button>
       <button id="delete-checklist-btn" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onclick="confirm('Are you sure?') && deleteChecklist()">Delete</button>
-      <button id="finalise-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="finalisePage()">Finalise</button>
+      <button id="import-checklist-btn" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="onImportClick()">Import</button>
+      <span id="import-checklist-box" class="hidden border-2 p-2 mb-2 text-lg rounded-lg w-max">
+        <input id="import-checklist" onchange="onImportInputChange()" type='file' />
+      </span>
     </div>
     <table id="mytable" class="border-collapse min-w-full text-lg text-center text-gray-500 ">
       <thead class="text-gray-700 w-full bg-gray-50 ">
@@ -62,8 +65,6 @@
     </div>
     <div class="mt-2">
       <!-- <button id="import-checklist-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="showImportChecklist()">Import Checklist</button> -->
-
-      <input id="file-input" class="hidden" type='file' />
 
       <div>Shortcuts: Ctrl-D (Show this Menu), Ctrl-E (Toggle Edit Mode), Ctrl-I (Insert Row), Ctrl-Shift-I (Insert Heading)</div>
     </div>

@@ -5,7 +5,7 @@ let selectedRow = null
 let finalised = false
 
 const NEW_CHECKLIST_OPTION = '+ New'
-const IMPORT_CHECKLIST_OPTION = '+ Import'
+// const IMPORT_CHECKLIST_OPTION = '+ Import'
 
 let state = {
     curTableName: 'sample', checklists: {
@@ -84,11 +84,6 @@ function exportChecklist() {
     }, null, 2), `${state.curTableName.replace(/\s+/g, '_')}.json`, 'application/json')
 }
 
-function showImportChecklist() {
-    showElement('#file-input-box')
-    hideElement('#import-checklist-btn')
-}
-
 function finalisePage() {
     finalised = true
     hideElement('#state-controls')
@@ -132,9 +127,9 @@ function rebuildDropdown() {
         dropdown.append(newOption)
     }
 
-    const importOption = document.createElement('option')
-    importOption.value = importOption.innerText = IMPORT_CHECKLIST_OPTION
-    dropdown.append(importOption)
+    // const importOption = document.createElement('option')
+    // importOption.value = importOption.innerText = IMPORT_CHECKLIST_OPTION
+    // dropdown.append(importOption)
 
     dropdown.value = state.curTableName
 }
@@ -160,27 +155,34 @@ function addNewChecklist() {
     rebuildAll()
 }
 
-function importChecklist() {
-    const fileInput = document.querySelector('#file-input')
-    fileInput.click()
-    fileInput.onchange = () => {
-        if (!fileInput.value) {
-            rebuildDropdown()
-            return
-        }
-        const reader = new FileReader()
-        reader.onload = e => {
-            const data = JSON.parse(e.target.result)
-            state.checklists[data.name] = data.checklist
-            state.curTableName = data.name
-            rebuildAll()
-            saveCurTable()
-        }
-        for (const file of fileInput.files) {
-            reader.readAsText(file)
-        }
-        fileInput.value = null
+function onImportClick() {
+    hideElement('#import-checklist-btn')
+    showElement('#import-checklist-box')
+}
+
+function onImportInputChange() {
+    const fileInput = document.querySelector('#import-checklist')
+
+    if (!fileInput.value) {
+        rebuildDropdown()
+        return
     }
+    const reader = new FileReader()
+    reader.onload = e => {
+        const data = JSON.parse(e.target.result)
+        state.checklists[data.name] = data.checklist
+        state.curTableName = data.name
+        rebuildAll()
+        saveCurTable()
+
+        showElement('#import-checklist-btn')
+        hideElement('#import-checklist-box')
+    }
+    for (const file of fileInput.files) {
+        reader.readAsText(file)
+    }
+    fileInput.value = null
+
 }
 
 function deleteAllRows(save = false) {
@@ -218,12 +220,12 @@ function onPageLoad() {
 
 function onKeyDown(e) {
     console.log(e.ctrlKey, e.shiftKey, e.keyCode)
-    if (!finalised && e.ctrlKey && e.keyCode == 68) { // Ctrl + D
+    if (!finalised && e.ctrlKey && e.key == 'd') { // Ctrl + D
         stateControlsShown = !stateControlsShown
         hideElement('#state-controls', !stateControlsShown)
         e.preventDefault()
     }
-    if (stateControlsShown && e.ctrlKey && e.keyCode == 61) {
+    if (stateControlsShown && e.ctrlKey && e.key == 'i') {
         if (e.shiftKey) {
             addNewRow({ heading: true })
         } else {
@@ -231,7 +233,7 @@ function onKeyDown(e) {
         }
         e.preventDefault()
     }
-    if (stateControlsShown && e.ctrlKey && e.keyCode == 69) {
+    if (stateControlsShown && e.ctrlKey && e.key == 'e') {
         toggleEditMode()
         e.preventDefault()
     }
@@ -244,8 +246,8 @@ function onDropdownChange() {
     const dropdown = document.querySelector('#checklists-dropdown')
     if (dropdown.value == NEW_CHECKLIST_OPTION) {
         addNewChecklist()
-    } else if (dropdown.value == IMPORT_CHECKLIST_OPTION) {
-        importChecklist()
+        // } else if (dropdown.value == IMPORT_CHECKLIST_OPTION) {
+        //     importChecklist()
     } else {
         state.curTableName = dropdown.value
     }
