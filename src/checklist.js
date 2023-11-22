@@ -209,13 +209,14 @@ function deleteRow(row) {
 // Event Handlers
 
 function onPageLoad() {
-    if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("sw.js")
-    }
     showdown.setFlavor('github')
     converter = new showdown.Converter({})
     loadState()
     rebuildAll()
+
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js")
+    }
 }
 
 function onKeyDown(e) {
