@@ -226,9 +226,9 @@ function onKeyDown(e) {
     }
     if (stateControlsShown && e.ctrlKey && e.key == 'i') {
         if (e.shiftKey) {
-            addNewRow({ heading: true })
+            addNewRow({ heading: true, save: false })
         } else {
-            addNewRow({ heading: false })
+            addNewRow({ heading: false, save: false })
         }
         e.preventDefault()
     }
