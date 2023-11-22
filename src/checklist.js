@@ -209,8 +209,6 @@ function deleteRow(row) {
 // Event Handlers
 
 function onPageLoad() {
-    showdown.setFlavor('github')
-    converter = new showdown.Converter({})
     loadState()
     rebuildAll()
 
