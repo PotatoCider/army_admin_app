@@ -4,16 +4,11 @@ let maxRowId = 0
 let selectedRow = null
 let finalised = false
 
+const urlParams = new URLSearchParams(window.location.search)
+const query = (urlParams.get('q') || '').toLowerCase()
+
 const NEW_CHECKLIST_OPTION = '+ New'
 // const IMPORT_CHECKLIST_OPTION = '+ Import'
-
-let state = {
-    curTableName: 'sample', checklists: {
-        sample: [
-            { id: 0, content: 'content', checked: false, heading: false },
-        ],
-    }
-}
 
 function saveCurTable() {
     const children = document.querySelector('#table-body').children
@@ -60,23 +55,6 @@ function saveCurTable() {
     saveState()
 }
 
-function saveState() {
-    window.localStorage.setItem('state', JSON.stringify(state))
-}
-
-function loadState() {
-    const pageState = document.querySelector('#state')
-    if (pageState.innerText) {
-        state = JSON.parse(pageState.innerText)
-        finalisePage()
-    } else {
-        state = JSON.parse(window.localStorage.getItem('state') || '{}')
-    }
-
-    state.curTableName = state.curTableName || 'Sample Checklist'
-    state.checklists = state.checklists || { [state.curTableName]: [] }
-}
-
 function exportChecklist() {
     download(JSON.stringify({
         name: state.curTableName,
@@ -97,8 +75,8 @@ function finalisePage() {
 }
 
 function rebuildAll() {
-    rebuildCurTable()
     rebuildDropdown()
+    rebuildCurTable()
 }
 
 function rebuildCurTable() {
@@ -116,7 +94,14 @@ function rebuildCurTable() {
 function rebuildDropdown() {
     const dropdown = document.querySelector('#checklists-dropdown')
     dropdown.innerHTML = ''
+    let changeValue = false
+    let first = null
     for (const name in state.checklists) {
+        if (query && !name.toLowerCase().includes(query)) {
+            if (state.curTableName === name) changeValue = true
+            continue
+        }
+        if (!first) first = name
         const option = document.createElement('option')
         option.value = option.innerText = name
         dropdown.append(option)
@@ -130,6 +115,7 @@ function rebuildDropdown() {
     // const importOption = document.createElement('option')
     // importOption.value = importOption.innerText = IMPORT_CHECKLIST_OPTION
     // dropdown.append(importOption)
+    if (changeValue) state.curTableName = first
 
     dropdown.value = state.curTableName
 }
@@ -208,17 +194,18 @@ function deleteRow(row) {
 
 // Event Handlers
 
-function onPageLoad() {
+document.addEventListener("DOMContentLoaded", function () {
     loadState()
     rebuildAll()
 
     if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("sw.js")
     }
-}
+})
 
-function onKeyDown(e) {
-    console.log(e.ctrlKey, e.shiftKey, e.keyCode)
+
+document.addEventListener("keydown", function (e) {
+    console.log(e.ctrlKey, e.shiftKey, e.key)
     if (!finalised && e.ctrlKey && e.key == 'd') { // Ctrl + D
         stateControlsShown = !stateControlsShown
         hideElement('#state-controls', !stateControlsShown)
@@ -236,10 +223,10 @@ function onKeyDown(e) {
         toggleEditMode()
         e.preventDefault()
     }
-    if (e.keyCode == 27) {
+    if (e.key == 'Escape') {
         document.activeElement.blur()
     }
-}
+})
 
 function onDropdownChange() {
     const dropdown = document.querySelector('#checklists-dropdown')
@@ -284,9 +271,6 @@ function onContentDblClick(e) {
     textarea.focus()
     textarea.addEventListener('blur', finish)
 }
-
-document.addEventListener("DOMContentLoaded", onPageLoad)
-document.onkeydown = onKeyDown
 
 function toggleEditMode() {
     editMode = !editMode
@@ -334,7 +318,10 @@ function addNewRow({ content = null, remarks = '', id = null, checked = false, h
     prevRow.after(row)
 
     if (!content) document.querySelector('#content').value = ''
-    if (save) saveCurTable()
+    if (save) {
+        row.scrollIntoView({ behavior: 'smooth' })
+        saveCurTable()
+    }
 }
 
 function encodeRowContent(row) {
@@ -351,26 +338,7 @@ function decodeRowContent(row) {
 
 // Utils
 
-function hideElement(element, hide = true) {
-    if (typeof element == 'string') element = document.querySelector(element)
-    if (hide) {
-        element.classList.add('hidden')
-    } else {
-        element.classList.remove('hidden')
-    }
-}
 
-function showElement(element) { return hideElement(element, false) }
-
-function download(blob, filename, type) {
-    const a = document.createElement("a")
-    const file = new Blob([blob], { type })
-    a.href = URL.createObjectURL(file)
-    a.download = filename
-    document.body.append(a)
-    a.click()
-    a.remove()
-}
 
 // extract data from old format to JSON
 (() => {

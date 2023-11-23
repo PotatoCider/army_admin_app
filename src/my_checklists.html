@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="state.js"></script>
+  <script src="utils.js"></script>
+  <script src="my_checklists.js"></script>
+  <link href='main.css' rel='stylesheet'>
+</head>
+
+<body>
+  <div id="category-list" class="m-auto mt-4 w-max border-2">
+    <div id="sample-category" class="category-div hidden border-t-2 py-2 px-20 text-center text-2xl">
+      <a class="category-link" href="checklist.html?q=Sample">Sample</a>
+    </div>
+  </div>
+  <div style="height: 320px;"></div>
+  <div id="state-controls" style="height: 160spx;" class="hidden border-2 fixed p-4 left-0 bottom-0 w-full">
+    <!-- <textarea id="content" placeholder="Content" class="w-full p-2 mt-4 bg-blue-50"></textarea> -->
+    <button id="new-category-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="addCategoryRow({save: true})">+ Category</button>
+
+    <button id="edit-mode-btn" class="focus:outline-none text-white bg-yellow-400 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Edit Mode On</button>
+    <div>Note: the checklist name must contain the category name to be included</div>
+    <div>Shortcuts: Ctrl-E (Toggle Edit Mode, Show this Menu), Ctrl-I (Insert Category)</div>
+</body>
+
+</html>

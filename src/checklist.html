@@ -6,10 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="manifest" href="/manifest.json" />
 
-  <!-- NOTE: checklist.css is built using tailwindcss -->
-  <link href='checklist.css' rel='stylesheet'>
+  <!-- NOTE: main.css is built using tailwindcss -->
+  <link href='main.css' rel='stylesheet'>
+  <script src="state.js"></script>
+  <script src="utils.js"></script>
   <script src="checklist.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script> -->
 </head>
 
 <body>
@@ -53,7 +55,7 @@
     </table>
     <div style="height: 320px;"></div>
   </div>
-  <div id="state-controls" style="height: 320px;" class="hidden fixed p-4 left-0 bottom-0 w-full bg-white">
+  <div id="state-controls" style="height: 320px;" class="hidden fixed p-4 left-0 bottom-0 w-full">
     <textarea id="content" placeholder="Content" class="w-full p-2 mt-4 bg-blue-50"></textarea>
     <div class="mt-2">
       <button id="new-row-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="addNewRow()">New Row</button>
@@ -61,7 +63,7 @@
       <button id="new-heading-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="addNewRow({ heading: true})">New Heading</button>
     </div>
     <div class="mt-2">
-      <button id="edit-mode-btn" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900" onclick="toggleEditMode(event)">Edit Mode Off</button>
+      <button id="edit-mode-btn" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900" onclick="toggleEditMode()">Edit Mode Off</button>
     </div>
     <div class="mt-2">
       <!-- <button id="import-checklist-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="showImportChecklist()">Import Checklist</button> -->
