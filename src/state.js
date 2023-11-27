@@ -9,7 +9,7 @@ let state = {
         ],
     },
 
-    // used in /my_checklists.html
+    // used in /my-checklists.html
     categories: [],
 }
 
