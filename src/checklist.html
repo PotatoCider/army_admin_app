@@ -11,17 +11,23 @@
   <script src="state.js"></script>
   <script src="utils.js"></script>
   <script src="checklist.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script> -->
 </head>
 
 <body>
   <div class="p-4 w-full">
-    <div class="border-2 p-2 mb-2 text-lg rounded-lg w-max">
-      <label for="checklists-dropdown">Selected Checklist :</label>
-      <select onchange="onDropdownChange(event)" id="checklists-dropdown" class="p-1" for="checklists-dropdown"></select>
-      <button id="export-checklist-btn" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="exportChecklist()">Export</button>
+    <div class="flex items-center i border-2 over mb-2 text-lg rounded-lg w-full">
+      <a href="my_checklists.html"><i class="fa fa-arrow-left fa-lg px-5 py-7 mr-2 border-r-2" aria-hidden="true"></i></a>
+
+      <!-- <div class="inline border-2"></div> -->
+      <div class="flex items-baseline mr-4">
+        <label for="checklists-dropdown">Selected Checklist:</label>
+        <select onchange="onDropdownChange(event)" id="checklists-dropdown" class="ml-2 p-1 border rounded-sm" for="checklists-dropdown"></select>
+      </div>
+      <button id="export-checklist-btn" class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="exportChecklist()">Export</button>
+      <button id="import-checklist-btn" class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="onImportClick()">Import</button>
       <button id="delete-checklist-btn" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onclick="confirm('Are you sure?') && deleteChecklist()">Delete</button>
-      <button id="import-checklist-btn" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="onImportClick()">Import</button>
       <span id="import-checklist-box" class="hidden border-2 p-2 mb-2 text-lg rounded-lg w-max">
         <input id="import-checklist" onchange="onImportInputChange()" type='file' />
       </span>
@@ -53,23 +59,20 @@
         </tr>
       </tbody>
     </table>
-    <div style="height: 320px;"></div>
+    <div style="height: 240px;"></div>
   </div>
-  <div id="state-controls" style="height: 320px;" class="hidden fixed p-4 left-0 bottom-0 w-full">
+  <div id="state-controls" style="height: 240px;" class="hidden overflow-auto bg-white fixed p-4 left-0 bottom-0 w-full">
     <textarea id="content" placeholder="Content" class="w-full p-2 mt-4 bg-blue-50"></textarea>
     <div class="mt-2">
       <button id="new-row-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="addNewRow()">New Row</button>
 
       <button id="new-heading-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="addNewRow({ heading: true})">New Heading</button>
-    </div>
-    <div class="mt-2">
-      <button id="edit-mode-btn" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900" onclick="toggleEditMode()">Edit Mode Off</button>
-    </div>
-    <div class="mt-2">
-      <!-- <button id="import-checklist-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="showImportChecklist()">Import Checklist</button> -->
 
-      <div>Shortcuts: Ctrl-D (Show this Menu), Ctrl-E (Toggle Edit Mode), Ctrl-I (Insert Row), Ctrl-Shift-I (Insert Heading)</div>
+      <button id="edit-mode-btn" class="focus:outline-none text-white bg-yellow-400 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Edit Mode On</button>
     </div>
+    <!-- <button id="import-checklist-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="showImportChecklist()">Import Checklist</button> -->
+
+    <div class="mt-2">Shortcuts: Ctrl-E (Toggle Edit Mode, Show this Menu), Ctrl-I (Insert Row), Ctrl-Shift-I (Insert Heading)</div>
     <div class="hidden" id="state"></div>
   </div>
 </body>

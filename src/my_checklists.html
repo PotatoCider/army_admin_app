@@ -24,8 +24,20 @@
     <button id="new-category-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="addCategoryRow({save: true})">+ Category</button>
 
     <button id="edit-mode-btn" class="focus:outline-none text-white bg-yellow-400 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Edit Mode On</button>
+
+    <button id="export-all" class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="exportAll()">Export All</button>
+
+    <a id="edit-all-checklists" href="checklist.html" class="btn text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Edit All Checklists</a>
+
     <div>Note: the checklist name must contain the category name to be included</div>
     <div>Shortcuts: Ctrl-E (Toggle Edit Mode, Show this Menu), Ctrl-I (Insert Category)</div>
+  </div>
+
+  <div class="fixed bottom-0 right-0 border-2 p-2 m-2 text-lg rounded-lg w-max">
+    <button id="import-all-btn" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="onImportAllClick()">Import All</button>
+    <input id="import-all-input" class="hidden" onchange="onImportAllChange()" type='file' />
+  </div>
+
 </body>
 
 </html>

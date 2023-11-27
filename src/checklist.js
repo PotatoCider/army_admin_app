@@ -1,10 +1,9 @@
-let editMode = false
-let stateControlsShown = false
 let maxRowId = 0
 let selectedRow = null
 let finalised = false
 
 const urlParams = new URLSearchParams(window.location.search)
+let editMode = false
 const query = (urlParams.get('q') || '').toLowerCase()
 
 const NEW_CHECKLIST_OPTION = '+ New'
@@ -55,24 +54,23 @@ function saveCurTable() {
     saveState()
 }
 
-function exportChecklist() {
+function exportAll() {
     download(JSON.stringify({
         name: state.curTableName,
         checklist: state.checklists[state.curTableName],
     }, null, 2), `${state.curTableName.replace(/\s+/g, '_')}.json`, 'application/json')
 }
 
-function finalisePage() {
-    finalised = true
-    hideElement('#state-controls')
-    if (editMode) toggleEditMode()
-    hideElement('#state-controls')
-    stateControlsShown = editMode = false
-    // document.querySelector('#delete-checklist-btn').classList.add('hidden')
-    document.querySelector('#finalise-btn').classList.add('hidden')
-    document.querySelector('#state').innerText = JSON.stringify(state)
-    rebuildAll()
-}
+// function finalisePage() {
+//     finalised = true
+//     hideElement('#state-controls')
+//     if (editMode) toggleEditMode()
+//     editMode = false
+//     // document.querySelector('#delete-checklist-btn').classList.add('hidden')
+//     document.querySelector('#finalise-btn').classList.add('hidden')
+//     document.querySelector('#state').innerText = JSON.stringify(state)
+//     rebuildAll()
+// }
 
 function rebuildAll() {
     rebuildDropdown()
@@ -106,7 +104,7 @@ function rebuildDropdown() {
         option.value = option.innerText = name
         dropdown.append(option)
     }
-    if (!finalised) {
+    if (!query) {
         const newOption = document.createElement('option')
         newOption.value = newOption.innerText = NEW_CHECKLIST_OPTION
         dropdown.append(newOption)
@@ -150,7 +148,8 @@ function onImportInputChange() {
     const fileInput = document.querySelector('#import-checklist')
 
     if (!fileInput.value) {
-        rebuildDropdown()
+        showElement('#import-checklist-btn')
+        hideElement('#import-checklist-box')
         return
     }
     const reader = new FileReader()
@@ -197,7 +196,14 @@ function deleteRow(row) {
 document.addEventListener("DOMContentLoaded", function () {
     loadState()
     rebuildAll()
-
+    if (query) {
+        hideElement('#import-checklist-btn')
+        hideElement('#delete-checklist-btn')
+    }
+    if (urlParams.get('edit') === 'true') {
+        editMode = false
+        toggleEditMode()
+    }
     if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("sw.js")
     }
@@ -206,12 +212,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("keydown", function (e) {
     console.log(e.ctrlKey, e.shiftKey, e.key)
-    if (!finalised && e.ctrlKey && e.key == 'd') { // Ctrl + D
-        stateControlsShown = !stateControlsShown
-        hideElement('#state-controls', !stateControlsShown)
-        e.preventDefault()
-    }
-    if (stateControlsShown && e.ctrlKey && e.key == 'i') {
+    // if (!finalised && e.ctrlKey && e.key == 'd') { // Ctrl + D
+    //     editMode = !editMode
+    //     hideElement('#state-controls', !editMode)
+    //     e.preventDefault()
+    // }
+    if (editMode && e.ctrlKey && e.key == 'i') {
         if (e.shiftKey) {
             addNewRow({ heading: true, save: false })
         } else {
@@ -219,7 +225,7 @@ document.addEventListener("keydown", function (e) {
         }
         e.preventDefault()
     }
-    if (stateControlsShown && e.ctrlKey && e.key == 'e') {
+    if (e.ctrlKey && e.key == 'e') {
         toggleEditMode()
         e.preventDefault()
     }
@@ -278,6 +284,7 @@ function toggleEditMode() {
     for (const deleteCell of deleteButtons) {
         hideElement(deleteCell, !editMode)
     }
+    hideElement('#state-controls', !editMode)
     hideElement('#delete-heading', !editMode)
 
     document.querySelector('#edit-mode-btn').innerText = `Edit Mode ${editMode ? 'On' : 'Off'}`

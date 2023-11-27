@@ -97,3 +97,37 @@ function toggleEditMode() {
         link.href = editMode ? '#' : `checklist.html?q=${link.innerHTML}`
     }
 }
+
+function exportAll() {
+    download(JSON.stringify(state, null, 2), `all_checklists.json`, 'application/json')
+}
+
+function onImportAllClick() {
+    hideElement('#import-all-btn')
+    showElement('#import-all-input')
+}
+
+function onImportAllChange() {
+    const fileInput = document.querySelector('#import-all-input')
+
+    if (!fileInput.value) {
+        showElement('#import-all-btn')
+        hideElement('#import-all-input')
+        return
+    }
+    const reader = new FileReader()
+    reader.onload = e => {
+        const ok = confirm('This will override everything. Have you made a backup? Are you sure?')
+        if (!ok) return
+        state = JSON.parse(e.target.result)
+        saveState()
+        rebuildList()
+
+        showElement('#import-all-btn')
+        hideElement('#import-all-input')
+    }
+    for (const file of fileInput.files) {
+        reader.readAsText(file)
+    }
+    fileInput.value = null
+}
